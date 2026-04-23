@@ -9,6 +9,12 @@ LOAD_ADDR = "USB0::0x05E6::0x2380::INSTR"
 SCOPE_ADDR = "USB0::0x0957::0x1790::INSTR" 
 
 def run_pdn_test(rail_name, target_v, load_a):
+    # --- THIS IS THE NEW "WAIT FOR HUMAN" PAUSE ---
+    print(f"\n==================================================")
+    input(f"[ACTION REQUIRED] Connect probes to the {rail_name} rail, then press ENTER...")
+    print(f"Testing {rail_name} at {load_a}A. Please wait...")
+    # ----------------------------------------------
+
     rm = pyvisa.ResourceManager()
     try:
         psu = rm.open_resource(PSU_ADDR)
@@ -39,6 +45,8 @@ def run_pdn_test(rail_name, target_v, load_a):
         with open('Production_Report.csv', 'a', newline='') as f:
             writer = csv.writer(f)
             writer.writerow([datetime.now(), rail_name, v_pp, v_min, status])
+            
+        print(f"Result for {rail_name}: {status}")
 
     finally:
         psu.write("OUTP OFF")
@@ -50,9 +58,11 @@ if __name__ == "__main__":
         writer = csv.writer(f)
         writer.writerow(["Timestamp", "Rail", "Ripple_Vpp", "Transient_Vmin", "Result"])
 
-    # Run tests for each rail from the Annexure
+    # Run tests for each rail sequentially
     run_pdn_test("+3V6", 3.6, 2.5)
     run_pdn_test("+1V8", 1.8, 3.0)
     run_pdn_test("+3V3", 3.3, 3.0)
     run_pdn_test("+2V5", 2.5, 1.5)
-  
+    
+    print("\nAll tests complete! Check Production_Report.csv for logs.")
+    
