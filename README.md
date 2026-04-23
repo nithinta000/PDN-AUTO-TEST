@@ -7,12 +7,12 @@ This repository contains the test automation suite for qualifying a 4-rail satel
 - **Dual Verification:** Measures both steady-state Ripple (<50mV) and Load Transient response (±5% tolerance) for every rail.
 - **Production Traceability:** Automatically generates a timestamped `Production_Report.csv` file for batch record keeping (e.g., SN-017).
 
-### 🛠️ Hardware Requirements
+###  Hardware Requirements
 - **Power Supply:** Keithley 2230-30-1
 - **Electronic Load:** Keithley 2380 Series
 - **Oscilloscope:** Keysight DSOX6004A
 
-### 📋 Testing Procedure
+###  Testing Procedure
 1. Connect all test hardware to the computer via USB.
 2. Install the required Python libraries:
    ```bash
